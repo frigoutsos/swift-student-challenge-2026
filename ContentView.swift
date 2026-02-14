@@ -8,7 +8,7 @@
 //
 import SwiftUI
 
-struct ContentView: View {
+struct ContentView: View {    
     var body: some View {
         VStack {
             // In case we want code to switch the tabs, use TabView(selection: $selection)

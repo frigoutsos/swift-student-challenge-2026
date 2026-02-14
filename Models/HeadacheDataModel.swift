@@ -10,7 +10,9 @@ import SwiftUI
 import SwiftData
 
 @Model
-class Headache {
+final class Headache {
+    @Attribute(.unique) var id: UUID = UUID()
+    
     var onsetDateAndTime: Date
     var intensity: Double
     var locations: [HeadacheLocation]
@@ -28,3 +30,5 @@ class Headache {
         self.triggers = triggers
     }
 }
+
+extension Headache: Identifiable {}

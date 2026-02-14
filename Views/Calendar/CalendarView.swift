@@ -10,9 +10,9 @@ import SwiftUI
 import SwiftData
 
 struct CalendarView: View {
+    
     @Query(sort: \Headache.onsetDateAndTime, order: .forward)
     private var headaches: [Headache]
-    
     @State private var selectedDate = Date()
     
     private var headacheDays: Set<Date> {

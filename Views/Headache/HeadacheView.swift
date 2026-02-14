@@ -12,7 +12,7 @@ struct HeadacheView: View {
     // TODO: this view should take in arguments to see which headache to display
     var body: some View {
         VStack {
-            Text("Headache Page")
+            Text("Headache View")
         }
     }
 }

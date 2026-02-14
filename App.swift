@@ -14,5 +14,6 @@ struct MyApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: Headache.self)
     }
 }

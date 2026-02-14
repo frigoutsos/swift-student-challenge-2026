@@ -17,6 +17,7 @@ let package = Package(
             name: "headacheapp",
             targets: ["AppModule"],
             bundleIdentifier: "dev.franklin.headacheapp",
+            teamIdentifier: "RPCN3H3YK4",
             displayVersion: "1.0",
             bundleVersion: "1",
             appIcon: .placeholder(icon: .bandage),
@@ -40,5 +41,5 @@ let package = Package(
             path: "."
         )
     ],
-    swiftLanguageModes: [.version("6")]
+    swiftLanguageVersions: [.version("6")]
 )

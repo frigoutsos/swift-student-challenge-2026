@@ -7,18 +7,23 @@
 //  Created by Franklin Rigoutsos on 2/1/26.
 //
 import SwiftUI
+import SwiftData
 
 struct HistoryView: View {
+    @Query(sort: \Headache.onsetDateAndTime, order: .reverse) var headaches: [Headache]
+    
     var body: some View {
-        
-        // TODO: query SwiftData model to get list of all headaches.
-        
-        VStack {
-            ScrollView {
-                Text("History Page")
+        NavigationStack {
+            List(headaches) { headache in
+                VStack(alignment: .leading) {
+                    Text(headache.onsetDateAndTime.formatted())
+                        .font(.headline)
+                    Text(headache.intensity.formatted())
+                        .font(.subheadline)
+                }
             }
+            .navigationTitle("History")
         }
-        .navigationTitle("History")
     }
 }
 
