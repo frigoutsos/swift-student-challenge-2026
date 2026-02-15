@@ -16,37 +16,43 @@ struct HistoryView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(headaches) { headache in
-                    VStack(alignment: .leading) {
-                        Text(headache.onsetDateAndTime.formatted())
-                            .font(.headline)
-                        Text("Intensity: \(headache.intensity, specifier: "%.1f")")
-                            .font(.subheadline)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        selectedHeadache = headache
-                    }
-                }
-                .onDelete(perform: deleteItem)
-            }
-            .navigationTitle("History")
-            .sheet(item: $selectedHeadache) { headache in
-                NavigationStack {
-                    HeadacheView(headacheToView: headache)
-                        .navigationTitle("Headache Summary")
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbar {
-                            ToolbarItem(placement: .topBarTrailing) {
-                                Button("Close", role: .close) {
-                                    selectedHeadache = nil
-                                }
+            VStack {
+                if (headaches.isEmpty) {
+                    Text("No headaches to display.")
+                } else {
+                    List {
+                        ForEach(headaches) { headache in
+                            VStack(alignment: .leading) {
+                                Text(headache.onsetDateAndTime.formatted())
+                                    .font(.headline)
+                                Text("Intensity: \(headache.intensity, specifier: "%.1f")")
+                                    .font(.subheadline)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                selectedHeadache = headache
                             }
                         }
+                        .onDelete(perform: deleteItem)
+                    }
+                    .sheet(item: $selectedHeadache) { headache in
+                        NavigationStack {
+                            HeadacheView(headacheToView: headache)
+                                .navigationTitle("Headache Summary")
+                                .navigationBarTitleDisplayMode(.inline)
+                                .toolbar {
+                                    ToolbarItem(placement: .topBarTrailing) {
+                                        Button("Close", role: .close) {
+                                            selectedHeadache = nil
+                                        }
+                                    }
+                                }
+                        }
+                    }
                 }
             }
+            .navigationTitle("History")
         }
     }
     
