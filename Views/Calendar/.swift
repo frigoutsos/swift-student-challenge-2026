@@ -4,7 +4,6 @@
 //
 //  Created by Franklin Rigoutsos on 2/6/26.
 //
-
 import SwiftUI
 
 struct CalendarOverlay: View {

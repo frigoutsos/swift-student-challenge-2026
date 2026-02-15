@@ -19,4 +19,6 @@ enum HeadacheTrigger: String, Codable, CaseIterable {
     case allergies = "Allergies"
     case stress = "Stress"
     case exertion = "Exertion"
+    case unsure = "Unsure"
+    case other = "Other"
 }

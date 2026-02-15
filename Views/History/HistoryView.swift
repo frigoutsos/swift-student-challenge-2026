@@ -39,6 +39,7 @@ struct HistoryView: View {
                     .sheet(item: $selectedHeadache) { headache in
                         NavigationStack {
                             HeadacheView(headacheToView: headache)
+                                .padding()
                                 .navigationTitle("Headache Summary")
                                 .navigationBarTitleDisplayMode(.inline)
                                 .toolbar {

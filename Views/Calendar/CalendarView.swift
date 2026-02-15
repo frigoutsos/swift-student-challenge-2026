@@ -35,29 +35,45 @@ struct CalendarView: View {
     }
     
     var body: some View {
-        
-        VStack {
+        VStack(spacing: 16) {
             // TODO: I want to try to make the headache view appear underneath the calendar.
             // TODO: It should show "select a day with a headache" otherwise.
             // TODO: align this properly horizontally/vertically.
-            VStack {
+            VStack(spacing: 16) {
                 Text("You've had \(headachesLastMonth.count) headaches in the past month.")
-                
-                HeadacheCalendarView(
-                    selectedDate: $selectedDate,
-                    headacheDays: headacheDays
+                    .font(.headline)
+                DatePicker(
+                    "Select Date",
+                    selection: $selectedDate,
+                    in: ...Date(),
+                    displayedComponents: [.date]
                 )
-                
+                .datePickerStyle(.graphical)
+                .tint(.red)
+                    
                 Divider()
-                
-                if headachesForSelectedDay.isEmpty {
-                    Text("Select a day to view a headache.")
-                } else {
-                    List(headachesForSelectedDay) { headache in
-                        HeadacheView(headacheToView: headache)
+
+                GeometryReader { geo in
+                    if headachesForSelectedDay.isEmpty {
+                        Text("Select a day to view a headache.")
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(Color.secondary)
+                    } else {
+                        ScrollView {
+                            VStack(spacing: 12) {
+                                ForEach(headachesForSelectedDay) { headache in
+                                    HeadacheView(headacheToView: headache)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding()
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
-                    .listStyle(.plain)
                 }
+                .frame(maxWidth: .infinity)
             }
         }
         .padding()

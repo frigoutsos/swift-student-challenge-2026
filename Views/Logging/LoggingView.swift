@@ -34,7 +34,6 @@ struct LoggingView: View {
             VStack(spacing: 16) {
                 stepContent
             }
-            .padding(30)
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -122,9 +121,9 @@ struct LoggingView: View {
      * When the user is on this step, they are viewing the logger.
      */
     var timeAndIntensityStep: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text("When did your headache start?")
-            DatePicker("Time of Onset",
+            DatePicker("Time of Onset:",
                        selection: $input.onsetDateAndTime,
                        in: ...Date(),
                        displayedComponents: [.date, .hourAndMinute])
@@ -134,10 +133,11 @@ struct LoggingView: View {
             Slider(value: $input.intensity, in: 0...10, step: 0.1)
             Text("Intensity: \(input.intensity, specifier: "%.1f")")
         }
+        .padding(30)
     }
     
     var locationStep: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text("Where does your headache hurt the most?")
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], spacing: 12) {
                 ForEach(HeadacheLocation.allCases, id: \.self) { loc in
@@ -163,11 +163,12 @@ struct LoggingView: View {
                 }
             }
         }
+        .padding(30)
     }
     
     var triggerStep: some View {
-        VStack {
-            Text("What do you think triggered your headache?")
+        VStack(alignment: .leading) {
+            Text("What triggered your headache?")
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], spacing: 12) {
                 ForEach(HeadacheTrigger.allCases, id: \.self) { trig in
                     Button(action: {
@@ -191,6 +192,7 @@ struct LoggingView: View {
                 }
             }
         }
+        .padding(30)
     }
     
     /*
