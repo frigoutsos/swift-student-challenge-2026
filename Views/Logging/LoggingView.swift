@@ -14,7 +14,7 @@ import SwiftUI
  */
 struct HeadacheInput {
     var intensity: Double = 5
-    var onsetDate: Date = Date()
+    var onsetDateAndTime: Date = Date()
     var locations: [HeadacheLocation] = []
     var triggers: [HeadacheTrigger] = []
 }
@@ -27,7 +27,6 @@ struct LoggingView: View {
     @State private var step: Int = 1
     // State of the user's input as they go through the screen
     @State private var input = HeadacheInput()
-    
     
     var body: some View {
         // Change the view programatically as the user clicks through the prompts
@@ -99,15 +98,17 @@ struct LoggingView: View {
         }
     }
     
-    private func saveHeadache() {
-        let headache = Headache(
-            onsetDateAndTime: input.onsetDate,
+    private var builtHeadache: Headache {
+        Headache(
+            onsetDateAndTime: input.onsetDateAndTime,
             intensity: input.intensity,
             locations: input.locations,
             triggers: input.triggers
         )
-        
-        context.insert(headache)
+    }
+    
+    private func saveHeadache() {
+        context.insert(builtHeadache)
         
         do {
             try context.save()
@@ -123,7 +124,10 @@ struct LoggingView: View {
     var timeAndIntensityStep: some View {
         VStack {
             Text("When did your headache start?")
-            DatePicker("Time of Onset", selection: $input.onsetDate, displayedComponents: [.date, .hourAndMinute])
+            DatePicker("Time of Onset",
+                       selection: $input.onsetDateAndTime,
+                       in: ...Date(),
+                       displayedComponents: [.date, .hourAndMinute])
             
             Text("How intense is your headache?")
             // TODO: change background based on intensity of headache
@@ -193,19 +197,7 @@ struct LoggingView: View {
      * When the user is viewing this step, they see a summary of the headache they entered.
      */
     var summaryStep: some View {
-        VStack(spacing: 16) {
-            Text("Review your headache")
-            Text("Intensity: \(input.intensity, specifier: "%.1f")")
-            Text("Date: \(input.onsetDate.formatted())")
-            Text("Locations:")
-            Text("Triggers:")
-            Text("Locations: \(input.locations.map { $0.rawValue }.joined(separator: ", "))")
-                Text("Triggers: \(input.triggers.map { $0.rawValue }.joined(separator: ", "))")
-        }
+        HeadacheView(headacheToView: builtHeadache)
     }
 
-}
-
-#Preview {
-    LoggingView()
 }

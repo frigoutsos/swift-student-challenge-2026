@@ -11,7 +11,7 @@ import SwiftData
 
 struct CalendarView: View {
     
-    @Query(sort: \Headache.onsetDateAndTime, order: .forward)
+    @Query(sort: \Headache.onsetDateAndTime, order: .reverse)
     private var headaches: [Headache]
     @State private var selectedDate = Date()
     
@@ -28,6 +28,12 @@ struct CalendarView: View {
         }
     }
     
+    private var headachesLastMonth: [Headache] {
+        let oneMonthAgo = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
+        
+        return headaches.filter { $0.onsetDateAndTime >= oneMonthAgo }
+    }
+    
     var body: some View {
         
         VStack {
@@ -35,7 +41,7 @@ struct CalendarView: View {
             // TODO: It should show "select a day with a headache" otherwise.
             // TODO: align this properly horizontally/vertically.
             VStack {
-                Text("You've had \(headaches.count) headaches in the past month.")
+                Text("You've had \(headachesLastMonth.count) headaches in the past month.")
                 
                 HeadacheCalendarView(
                     selectedDate: $selectedDate,
@@ -48,7 +54,7 @@ struct CalendarView: View {
                     Text("Select a day to view a headache.")
                 } else {
                     List(headachesForSelectedDay) { headache in
-                        Text("Intensity: \(headache.intensity)")
+                        HeadacheView(headacheToView: headache)
                     }
                     .listStyle(.plain)
                 }
