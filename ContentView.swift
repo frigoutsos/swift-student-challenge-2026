@@ -31,9 +31,9 @@ struct ContentView: View {
                     }
                 }
                 
-                Tab("Settings", systemImage: "gear") {
+                Tab("Insights", systemImage: "lightbulb") {
                     NavigationStack {
-                        SettingsView()
+                        InsightsView()
                     }
                 }
             }

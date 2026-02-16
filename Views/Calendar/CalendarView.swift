@@ -28,55 +28,43 @@ struct CalendarView: View {
         }
     }
     
-    private var headachesLastMonth: [Headache] {
-        let oneMonthAgo = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
-        
-        return headaches.filter { $0.onsetDateAndTime >= oneMonthAgo }
-    }
-    
     var body: some View {
-        VStack(spacing: 16) {
-            // TODO: I want to try to make the headache view appear underneath the calendar.
-            // TODO: It should show "select a day with a headache" otherwise.
-            // TODO: align this properly horizontally/vertically.
-            VStack(spacing: 16) {
-                Text("You've had \(headachesLastMonth.count) headaches in the past month.")
-                    .font(.headline)
-                DatePicker(
-                    "Select Date",
-                    selection: $selectedDate,
-                    in: ...Date(),
-                    displayedComponents: [.date]
+        VStack(spacing: 0) {
+            VStack(spacing: 12) {
+                CalendarUIKitView(
+                    selectedDate: $selectedDate,
+                    headacheDays: headacheDays
                 )
-                .datePickerStyle(.graphical)
-                .tint(.red)
-                    
-                Divider()
-
-                GeometryReader { geo in
-                    if headachesForSelectedDay.isEmpty {
-                        Text("Select a day to view a headache.")
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .multilineTextAlignment(.center)
-                            .foregroundStyle(Color.secondary)
-                    } else {
-                        ScrollView {
-                            VStack(spacing: 12) {
-                                ForEach(headachesForSelectedDay) { headache in
-                                    HeadacheView(headacheToView: headache)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding()
-                                }
-                            }
-                            .frame(maxWidth: .infinity)
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    }
-                }
+                .scaleEffect(0.8)
+                .frame(height: 400)
+                .frame(maxWidth: 600)
+                .padding(.horizontal)
                 .frame(maxWidth: .infinity)
             }
+            
+            Divider()
+            
+            Group {
+                if headachesForSelectedDay.isEmpty {
+                    Text("Select a day to view a headache.")
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(Color.secondary)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    ScrollView {
+                        VStack(alignment: .center, spacing: 12) {
+                            ForEach(headachesForSelectedDay) { headache in
+                                HeadacheView(headacheToView: headache)
+                                    .padding(32)
+                                    .frame(maxWidth: 400)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .padding()
         .navigationTitle("Calendar")
     }
 }

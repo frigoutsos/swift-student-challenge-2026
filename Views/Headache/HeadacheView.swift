@@ -14,6 +14,15 @@ struct HeadacheView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             
+            // Date
+            HStack(spacing: 8) {
+                Image(systemName: "calendar")
+                    .foregroundColor(.blue)
+                Text("Date:")
+                    .bold()
+                Text(headacheToView.onsetDateAndTime.formatted(.dateTime.month().day().year().hour().minute()))
+            }
+            
             // Intensity
             HStack(spacing: 8) {
                 Image(systemName: "speedometer")
@@ -23,20 +32,11 @@ struct HeadacheView: View {
                 Text("\(headacheToView.intensity, specifier: "%.1f") / 10")
             }
 
-            // Date
-            HStack(spacing: 8) {
-                Image(systemName: "calendar")
-                    .foregroundColor(.blue)
-                Text("Date:")
-                    .bold()
-                Text(headacheToView.onsetDateAndTime.formatted(.dateTime.month().day().year().hour().minute()))
-            }
-
             // Locations
             HStack(alignment: .top, spacing: 8) {
                 Image(systemName: "location.fill")
                     .foregroundColor(.orange)
-                    .padding(.top, 2) // Align icon to text
+                    .padding(.top, 2)
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Locations:")
                         .bold()
@@ -59,10 +59,11 @@ struct HeadacheView: View {
             }
             
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(24)
         .background(Color(.systemGray6))
+//         TODO: cornerRadius is deprecated
         .cornerRadius(16)
         .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

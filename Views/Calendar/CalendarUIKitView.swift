@@ -1,0 +1,58 @@
+//
+//  CalendarUIKitView.swift
+//  headacheapp
+//
+//  UIKitView representation for the Calendar object, which allows for date-based decorations.
+//
+//  Created by Franklin Rigoutsos on 2/16/26.
+//
+import SwiftUI
+import UIKit
+
+struct CalendarUIKitView: UIViewRepresentable {
+    @Binding var selectedDate: Date
+    var headacheDays: Set<Date>
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    func makeUIView(context: Context) -> UICalendarView {
+        let calendarView = UICalendarView()
+        calendarView.delegate = context.coordinator
+        calendarView.selectionBehavior = UICalendarSelectionSingleDate(delegate: context.coordinator)
+        
+        return calendarView
+    }
+    
+    func updateUIView(_ uiView: UICalendarView, context: Context) {
+        context.coordinator.parent = self
+    }
+    
+    class Coordinator: NSObject, UICalendarViewDelegate, UICalendarSelectionSingleDateDelegate {
+        var parent: CalendarUIKitView
+        
+        init(_ parent: CalendarUIKitView) {
+            self.parent = parent
+        }
+        
+        func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
+            guard let components = dateComponents,
+                  let date = Calendar.current.date(from: components) else { return }
+            
+            parent.selectedDate = date
+        }
+        
+        func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
+            guard let date = Calendar.current.date(from: dateComponents) else { return nil }
+            
+            let startOfDay = Calendar.current.startOfDay(for: date)
+            
+            if parent.headacheDays.contains(startOfDay) {
+                return .default(color: .systemRed, size: .large)
+            }
+            
+            return nil
+        }
+    }
+}
