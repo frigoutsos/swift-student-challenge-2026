@@ -13,15 +13,80 @@ struct InsightsView: View {
     @Query(sort: \Headache.onsetDateAndTime, order: .reverse)
     private var headaches: [Headache]
     
+    // Computed property to get headaches last month
     private var headachesLastMonth: [Headache] {
         let oneMonthAgo = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
         
         return headaches.filter { $0.onsetDateAndTime >= oneMonthAgo }
     }
     
+    // Computed property for most common monthly headache trigger
+    private var mostCommonMonthTrigger: HeadacheTrigger? {
+        // flatMap since the triggers field contains an array of triggers for each headache object
+        let triggers = headachesLastMonth.flatMap { $0.triggers }
+        
+        let counts = triggers.reduce(into: [HeadacheTrigger: Int]()) { counts, trigger in
+            counts[trigger, default: 0] += 1
+        }
+        
+        return counts.max(by: { $0.value < $1.value })?.key
+    }
+
+    // Computed property for most common monthly headache location
+    private var mostCommonMonthLocation: HeadacheLocation? {
+        // flatMap since the locations field contains an array of locations for each headache object
+        let locations = headachesLastMonth.flatMap { $0.locations }
+        
+        let counts = locations.reduce(into: [HeadacheLocation: Int]()) { counts, location in
+            counts[location, default: 0] += 1
+        }
+        
+        return counts.max(by: { $0.value < $1.value })?.key
+    }
+    
+    // Computed property for most common lifetime headache trigger
+    private var mostCommonLifetimeTrigger: HeadacheTrigger? {
+        // flatMap since the triggers field contains an array of triggers for each headache object
+        let triggers = headaches.flatMap { $0.triggers }
+        
+        // Create dictionary of counts
+        let counts = triggers.reduce(into: [HeadacheTrigger: Int]()) { counts, trigger in
+            counts[trigger, default: 0] += 1
+        }
+        
+        // Find the key with the maximum count
+        return counts.max(by: { $0.value < $1.value })?.key
+    }
+    
+    // Computed property for most common lifetime headache location
+    private var mostCommonLifetimeLocation: HeadacheLocation? {
+        // flatMap since the locations field contains an array of locations for each headache object
+        let locations = headaches.flatMap { $0.locations }
+        
+        let counts = locations.reduce(into: [HeadacheLocation: Int]()) { counts, location in
+            counts[location, default: 0] += 1
+        }
+        
+        return counts.max(by: { $0.value < $1.value })?.key
+    }
+    
     var body: some View {
-        VStack {
-            Text("You've had \(headachesLastMonth.count) headaches in the past month.")
+        ScrollView {
+            VStack(spacing: 20) {
+                MostRecentHeadacheView(mostRecentHeadache: headaches.first ?? nil)
+                
+                MonthlyCardView(headacheCount: headachesLastMonth.count,
+                                mostCommonMonthTrigger: mostCommonMonthTrigger,
+                                mostCommonMonthLocation: mostCommonMonthLocation)
+                .frame(maxWidth: 400)
+                
+                LifetimeCardView(headacheCount: headaches.count,
+                                 mostCommonLifetimeTrigger: mostCommonLifetimeTrigger,
+                                 mostCommonLifetimeLocation: mostCommonLifetimeLocation)
+                .frame(maxWidth: 400)
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
         }
         .navigationTitle("Insights")
     }

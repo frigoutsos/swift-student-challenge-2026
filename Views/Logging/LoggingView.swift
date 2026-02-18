@@ -199,7 +199,15 @@ struct LoggingView: View {
      * When the user is viewing this step, they see a summary of the headache they entered.
      */
     var summaryStep: some View {
-        HeadacheView(headacheToView: builtHeadache)
+        VStack {
+            HeadacheView(headacheToView: builtHeadache)
+                .frame(maxWidth: 500)
+                .background(Color(.systemGray6))
+        //         TODO: cornerRadius is deprecated
+                .cornerRadius(16)
+                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+        }
+        .frame(maxWidth: .infinity)
     }
 
 }

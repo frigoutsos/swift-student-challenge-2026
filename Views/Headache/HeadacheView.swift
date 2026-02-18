@@ -61,9 +61,5 @@ struct HeadacheView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(24)
-        .background(Color(.systemGray6))
-//         TODO: cornerRadius is deprecated
-        .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
     }
 }

@@ -14,6 +14,7 @@ struct CalendarView: View {
     @Query(sort: \Headache.onsetDateAndTime, order: .reverse)
     private var headaches: [Headache]
     @State private var selectedDate = Date()
+    @State private var showInfo: Bool = false
     
     private var headacheDays: Set<Date> {
         Set(headaches.map {
@@ -35,34 +36,46 @@ struct CalendarView: View {
                 headacheDays: headacheDays
             )
             .fixedSize(horizontal: false, vertical: true)
-            .frame(maxWidth: 300)
+            .frame(maxWidth: 325)
             .padding(.horizontal)
             .frame(maxWidth: .infinity)
             
             Divider()
             
-            Group {
-                if headachesForSelectedDay.isEmpty {
-                    Text("Select a day to view a headache.")
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(Color.secondary)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else {
-                    ScrollView {
-                        VStack(alignment: .center, spacing: 12) {
-                            ForEach(headachesForSelectedDay) { headache in
-                                HeadacheView(headacheToView: headache)
-                                    .padding(32)
-                                    .frame(maxWidth: 400)
-                            }
+            Text("Select a day to view a headache.")
+                .multilineTextAlignment(.center)
+                .foregroundStyle(Color.secondary)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .navigationTitle("Calendar")
+        .onChange(of: selectedDate) {
+            showInfo = true
+        }
+        .sheet(isPresented: $showInfo) {
+            NavigationStack {
+                ScrollView {
+                    ForEach(headachesForSelectedDay) { headache in
+                        HeadacheView(headacheToView: headache)
+                            .padding(.horizontal)
+                            .padding(.top)
+                            .frame(maxWidth: 400)
+                            .background(Color(.systemGray6))
+                    //         TODO: cornerRadius is deprecated
+                            .cornerRadius(16)
+                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                    }
+                }
+                .navigationTitle("Headaches")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Close") {
+                            showInfo = false
                         }
-                        .frame(maxWidth: .infinity)
                     }
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .navigationTitle("Calendar")
     }
 }
 

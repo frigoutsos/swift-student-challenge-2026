@@ -6,7 +6,7 @@
 //
 //  Created by Franklin Rigoutsos on 1/27/26.
 //
-enum HeadacheTrigger: String, Codable, CaseIterable {
+enum HeadacheTrigger: String, Codable, CaseIterable, Hashable {
     case dehydration = "Dehydration"
     case diet = "Diet"
     case caffeine = "Caffiene"

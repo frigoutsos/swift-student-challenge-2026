@@ -40,6 +40,10 @@ struct HistoryView: View {
                         NavigationStack {
                             HeadacheView(headacheToView: headache)
                                 .padding()
+                                .background(Color(.systemGray6))
+                        //         TODO: cornerRadius is deprecated
+                                .cornerRadius(16)
+                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
                                 .navigationTitle("Headache Summary")
                                 .navigationBarTitleDisplayMode(.inline)
                                 .toolbar {
