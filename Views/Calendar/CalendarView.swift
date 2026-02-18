@@ -30,17 +30,14 @@ struct CalendarView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            VStack(spacing: 12) {
-                CalendarUIKitView(
-                    selectedDate: $selectedDate,
-                    headacheDays: headacheDays
-                )
-                .scaleEffect(0.8)
-                .frame(height: 400)
-                .frame(maxWidth: 600)
-                .padding(.horizontal)
-                .frame(maxWidth: .infinity)
-            }
+            CalendarUIKitView(
+                selectedDate: $selectedDate,
+                headacheDays: headacheDays
+            )
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxWidth: 300)
+            .padding(.horizontal)
+            .frame(maxWidth: .infinity)
             
             Divider()
             

@@ -22,11 +22,20 @@ struct CalendarUIKitView: UIViewRepresentable {
         calendarView.delegate = context.coordinator
         calendarView.selectionBehavior = UICalendarSelectionSingleDate(delegate: context.coordinator)
         
+        calendarView.setContentHuggingPriority(.required, for: .vertical)
+        calendarView.setContentCompressionResistancePriority(.required, for: .vertical)
+        
         return calendarView
     }
     
     func updateUIView(_ uiView: UICalendarView, context: Context) {
         context.coordinator.parent = self
+    }
+    
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView: UICalendarView, context: Context) -> CGSize? {
+        let width = proposal.width ?? UIView.layoutFittingExpandedSize.width
+        let fitting = uiView.sizeThatFits(CGSize(width: width, height: UIView.layoutFittingCompressedSize.height))
+        return CGSize(width: width, height: fitting.height)
     }
     
     class Coordinator: NSObject, UICalendarViewDelegate, UICalendarSelectionSingleDateDelegate {
