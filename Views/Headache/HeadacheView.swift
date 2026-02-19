@@ -17,49 +17,66 @@ struct HeadacheView: View {
             // Date
             HStack(spacing: 8) {
                 Image(systemName: "calendar")
-                    .foregroundColor(.blue)
+                    .foregroundStyle(.blue)
+                
                 Text("Date:")
-                    .bold()
+                    .fontWeight(.semibold)
+                
                 Text(headacheToView.onsetDateAndTime.formatted(.dateTime.month().day().year().hour().minute()))
+                    .foregroundStyle(.primary)
             }
+            .font(.subheadline)
             
             // Intensity
             HStack(spacing: 8) {
                 Image(systemName: "speedometer")
-                    .foregroundColor(.red)
+                    .foregroundStyle(.red)
+                
                 Text("Intensity:")
-                    .bold()
+                    .fontWeight(.semibold)
+                
                 Text("\(headacheToView.intensity, specifier: "%.1f") / 10")
+                    .foregroundStyle(.primary)
             }
+            .font(.subheadline)
 
             // Locations
             HStack(alignment: .top, spacing: 8) {
                 Image(systemName: "location.fill")
-                    .foregroundColor(.orange)
+                    .foregroundStyle(.orange)
                     .padding(.top, 2)
+                
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Locations:")
-                        .bold()
+                        .fontWeight(.bold)
+                    
                     Text(headacheToView.locations.map { $0.rawValue }.joined(separator: ", "))
                         .fixedSize(horizontal: false, vertical: true)
+                        .foregroundStyle(.primary)
                 }
             }
+            .font(.subheadline)
 
             // Triggers
             HStack(alignment: .top, spacing: 8) {
                 Image(systemName: "bolt.fill")
-                    .foregroundColor(.yellow)
+                    .foregroundStyle(.yellow)
                     .padding(.top, 2)
+                
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Triggers:")
-                        .bold()
+//                        .bold()
+                        .fontWeight(.semibold)
+                    
                     Text(headacheToView.triggers.map { $0.rawValue }.joined(separator: ", "))
                         .fixedSize(horizontal: false, vertical: true)
+                        .foregroundStyle(.primary)
                 }
             }
+            .font(.subheadline)
             
         }
+        .fixedSize(horizontal: false, vertical: false)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(24)
     }
 }

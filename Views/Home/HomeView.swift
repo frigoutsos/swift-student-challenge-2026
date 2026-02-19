@@ -12,21 +12,45 @@ struct HomeView: View {
     @State private var showLogger = false
     
     var body: some View {
-        VStack {
-            Text("Home Page")
-            
-            VStack {
-                Button("Log Headache") {
-                    showLogger = true
+        NavigationStack {
+            VStack(spacing: 32) {
+                Spacer()
+                
+                VStack(spacing: 12) {
+                    Image(systemName: "brain.head.profile")
+                        .font(.system(size: 48))
+                        .foregroundStyle(.blue)
+                    
+                    Text("Track Your Headaches")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    
+                    Text("Log episodes and uncover patterns")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
                 }
-                .padding()
-                .buttonStyle(.bordered)
+                
+                Button {
+                    showLogger = true
+                } label: {
+                    Label("Log Headache", systemImage: "plus.circle.fill")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
+                .padding(.horizontal)
                 .sheet(isPresented: $showLogger) {
                     LoggingView()
                 }
+                
+                Spacer()
             }
+            .navigationTitle("Home")
         }
-        .navigationTitle("Home")
     }
 }
 

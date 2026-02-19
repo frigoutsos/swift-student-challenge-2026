@@ -38,21 +38,23 @@ struct HistoryView: View {
                     }
                     .sheet(item: $selectedHeadache) { headache in
                         NavigationStack {
-                            HeadacheView(headacheToView: headache)
-                                .padding()
-                                .background(Color(.systemGray6))
-                        //         TODO: cornerRadius is deprecated
-                                .cornerRadius(16)
-                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
-                                .navigationTitle("Headache Summary")
-                                .navigationBarTitleDisplayMode(.inline)
-                                .toolbar {
-                                    ToolbarItem(placement: .topBarTrailing) {
-                                        Button("Close", role: .close) {
-                                            selectedHeadache = nil
-                                        }
+                            VStack {
+                                HeadacheView(headacheToView: headache)
+                                    .frame(maxWidth: 500)
+                            }
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                            .navigationTitle("Headache Summary")
+                            .navigationBarTitleDisplayMode(.inline)
+                            .toolbar {
+                                ToolbarItem(placement: .topBarTrailing) {
+                                    Button("Close", role: .close) {
+                                        selectedHeadache = nil
                                     }
                                 }
+                            }
                         }
                     }
                 }

@@ -39,7 +39,7 @@ struct LifetimeCardView: View {
                     Text("Most common trigger:")
                         .fontWeight(.semibold)
                     
-                    Text(mostCommonLifetimeTrigger?.rawValue.capitalized ?? "Unknown")
+                    Text(mostCommonLifetimeTrigger?.rawValue ?? "Unknown")
                         .foregroundStyle(.primary)
                 }
                 .font(.subheadline)
@@ -51,7 +51,7 @@ struct LifetimeCardView: View {
                     Text("Most common location:")
                         .fontWeight(.semibold)
                     
-                    Text(mostCommonLifetimeLocation?.rawValue.capitalized ?? "Unknown")
+                    Text(mostCommonLifetimeLocation?.rawValue ?? "Unknown")
                         .foregroundStyle(.primary)
                 }
                 .font(.subheadline)

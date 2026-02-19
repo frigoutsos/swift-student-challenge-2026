@@ -39,7 +39,7 @@ struct MonthlyCardView: View {
                     Text("Most common trigger:")
                         .fontWeight(.semibold)
                     
-                    Text(mostCommonMonthTrigger?.rawValue.capitalized ?? "Unknown")
+                    Text(mostCommonMonthTrigger?.rawValue ?? "Unknown")
                         .foregroundStyle(.primary)
                 }
                 .font(.subheadline)
@@ -51,7 +51,7 @@ struct MonthlyCardView: View {
                     Text("Most common location:")
                         .fontWeight(.semibold)
                     
-                    Text(mostCommonMonthLocation?.rawValue.capitalized ?? "Unknown")
+                    Text(mostCommonMonthLocation?.rawValue ?? "Unknown")
                         .foregroundStyle(.primary)
                 }
                 .font(.subheadline)
