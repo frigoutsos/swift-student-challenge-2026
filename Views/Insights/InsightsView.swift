@@ -10,8 +10,8 @@ import SwiftUI
 import SwiftData
 
 struct InsightsView: View {
-    @Query(sort: \Headache.onsetDateAndTime, order: .reverse)
-    private var headaches: [Headache]
+    // Get a list of headaches, reverse sorted by time
+    @Query(sort: \Headache.onsetDateAndTime, order: .reverse) private var headaches: [Headache]
     
     // Computed property to get headaches last month
     private var headachesLastMonth: [Headache] {
@@ -71,19 +71,25 @@ struct InsightsView: View {
     }
     
     var body: some View {
+        // Make the view scrollable
         ScrollView {
             VStack(spacing: 20) {
+                // Display the card views for headache insights
                 MostRecentHeadacheView(mostRecentHeadache: headaches.first ?? nil)
                 
+                /*
+                 * Rather than passing in the list of headaches to the card view to calculate frequencies,
+                 * triggers, and locations, we do it here and pass the 3 results into the views.
+                 */
                 MonthlyCardView(headacheCount: headachesLastMonth.count,
                                 mostCommonMonthTrigger: mostCommonMonthTrigger,
                                 mostCommonMonthLocation: mostCommonMonthLocation)
-                .frame(maxWidth: 400)
+                    .frame(maxWidth: 400)
                 
                 LifetimeCardView(headacheCount: headaches.count,
                                  mostCommonLifetimeTrigger: mostCommonLifetimeTrigger,
                                  mostCommonLifetimeLocation: mostCommonLifetimeLocation)
-                .frame(maxWidth: 400)
+                    .frame(maxWidth: 400)
             }
             .frame(maxWidth: .infinity)
             .padding()

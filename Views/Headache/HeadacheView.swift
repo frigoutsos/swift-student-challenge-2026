@@ -9,12 +9,13 @@
 import SwiftUI
 
 struct HeadacheView: View {
+    // Take in a Headache object to display in this view
     let headacheToView: Headache
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             
-            // Date
+            // Date info
             HStack(spacing: 8) {
                 Image(systemName: "calendar")
                     .foregroundStyle(.blue)
@@ -27,7 +28,7 @@ struct HeadacheView: View {
             }
             .font(.subheadline)
             
-            // Intensity
+            // Intensity info
             HStack(spacing: 8) {
                 Image(systemName: "speedometer")
                     .foregroundStyle(.red)
@@ -40,7 +41,7 @@ struct HeadacheView: View {
             }
             .font(.subheadline)
 
-            // Locations
+            // Location(s) info
             HStack(alignment: .top, spacing: 8) {
                 Image(systemName: "location.fill")
                     .foregroundStyle(.orange)
@@ -57,7 +58,7 @@ struct HeadacheView: View {
             }
             .font(.subheadline)
 
-            // Triggers
+            // Trigger(s) info
             HStack(alignment: .top, spacing: 8) {
                 Image(systemName: "bolt.fill")
                     .foregroundStyle(.yellow)

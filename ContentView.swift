@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {    
     var body: some View {
         VStack {
-            // In case we want code to switch the tabs, use TabView(selection: $selection)
+            // Set up the bottom TabView
             TabView {
                 Tab("Home", systemImage: "house.fill") {
                     NavigationStack {

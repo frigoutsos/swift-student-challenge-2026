@@ -10,18 +10,21 @@ import SwiftUI
 import SwiftData
 
 struct CalendarView: View {
+    // Get a list of headaches, reverse sorted by time
+    @Query(sort: \Headache.onsetDateAndTime, order: .reverse) private var headaches: [Headache]
     
-    @Query(sort: \Headache.onsetDateAndTime, order: .reverse)
-    private var headaches: [Headache]
+    // State variables to handle showing headache info cards for selected dates
     @State private var selectedDate = Date()
     @State private var showInfo: Bool = false
     
+    // Computed property to get set of Dates that had at least one headache logged on them
     private var headacheDays: Set<Date> {
         Set(headaches.map {
             Calendar.current.startOfDay(for: $0.onsetDateAndTime)
         })
     }
     
+    // Computed property to get the list of headaches for the selected date
     private var headachesForSelectedDay: [Headache] {
         let day = Calendar.current.startOfDay(for: selectedDate)
         return headaches.filter {
@@ -31,6 +34,7 @@ struct CalendarView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            // Display our calendar
             CalendarUIKitView(
                 selectedDate: $selectedDate,
                 headacheDays: headacheDays
@@ -42,6 +46,7 @@ struct CalendarView: View {
             
             Divider()
             
+            // Prompt the user to select a date on the calendar to see a headache card
             Text("Select a day to view a headache.")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color.secondary)
@@ -53,19 +58,26 @@ struct CalendarView: View {
                 showInfo = true
             }
         }
+        // If the user clicks on a date, pop up a sheet with a headache card
         .sheet(isPresented: $showInfo) {
             NavigationStack {
                 ScrollView {
-                    ForEach(headachesForSelectedDay) { headache in
-                        HeadacheView(headacheToView: headache)
-                            .padding(.horizontal)
-                            .padding(.top)
-                            .frame(maxWidth: 400)
-                            .background(Color(.systemGray6))
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                    VStack(spacing: 16) {
+                        // Iterate through and display headaches for the selected day
+                        ForEach(headachesForSelectedDay) { headache in
+                            HeadacheView(headacheToView: headache)
+                                .padding()
+                                .frame(maxWidth: 400)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .fill(Color(.secondarySystemGroupedBackground))
+                                        .shadow(color: .black.opacity(0.08), radius: 8, y: 4)
+                                )
+                        }
                     }
+                    .padding()
                 }
+                .background(Color(.systemGroupedBackground))
                 .navigationTitle("Headaches")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {

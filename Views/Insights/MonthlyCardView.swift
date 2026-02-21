@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct MonthlyCardView: View {
+    // Pass the calculated values to display, rather than the entire list of headaches
     let headacheCount: Int
     let mostCommonMonthTrigger: HeadacheTrigger?
     let mostCommonMonthLocation: HeadacheLocation?
@@ -16,6 +17,7 @@ struct MonthlyCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             
+            // Title and number of headaches
             Label("Past 30 Days", systemImage: "calendar")
                 .font(.headline)
                 .foregroundStyle(.secondary)
@@ -24,7 +26,8 @@ struct MonthlyCardView: View {
                 Text("\(headacheCount)")
                     .font(.system(size: 36, weight: .bold, design: .rounded))
                 
-                Text("headaches")
+                // Proper pluralization for the word headaches
+                Text("headache\(headacheCount == 1 ? "" : "s")")
                     .font(.title3)
                     .foregroundStyle(.secondary)
             }
@@ -32,18 +35,7 @@ struct MonthlyCardView: View {
             Divider()
             
             VStack(alignment: .leading, spacing: 8) {
-                HStack(spacing: 8) {
-                    Image(systemName: "exclamationmark.triangle.fill")
-                        .foregroundStyle(.yellow)
-                    
-                    Text("Most common trigger:")
-                        .fontWeight(.semibold)
-                    
-                    Text(mostCommonMonthTrigger?.rawValue ?? "Unknown")
-                        .foregroundStyle(.primary)
-                }
-                .font(.subheadline)
-                
+                // Most common location
                 HStack(spacing: 8) {
                     Image(systemName: "location.fill")
                         .foregroundStyle(.orange)
@@ -52,6 +44,19 @@ struct MonthlyCardView: View {
                         .fontWeight(.semibold)
                     
                     Text(mostCommonMonthLocation?.rawValue ?? "Unknown")
+                        .foregroundStyle(.primary)
+                }
+                .font(.subheadline)
+            
+                // Most common trigger
+                HStack(spacing: 8) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.yellow)
+                    
+                    Text("Most common trigger:")
+                        .fontWeight(.semibold)
+                    
+                    Text(mostCommonMonthTrigger?.rawValue ?? "Unknown")
                         .foregroundStyle(.primary)
                 }
                 .font(.subheadline)

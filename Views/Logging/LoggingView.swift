@@ -20,11 +20,15 @@ struct HeadacheInput {
 }
 
 struct LoggingView: View {
+    // Access the configured model context
     @Environment(\.modelContext) private var context
+    
+    // Allow the user to click cancel and dismiss the logging flow
     @Environment(\.dismiss) private var dismiss
     
-    // Track the state of which step the user is on
+    // State to track which step the user is on
     @State private var step: Int = 1
+    
     // State of the user's input as they go through the screen
     @State private var input = HeadacheInput()
     
@@ -38,6 +42,7 @@ struct LoggingView: View {
                         .fontWeight(.semibold)
                         .foregroundStyle(.secondary)
                     
+                    // Display a progress bar to the user
                     ProgressView(value: Double(step), total: 4)
                         .tint(.blue)
                 }
@@ -46,6 +51,7 @@ struct LoggingView: View {
                 .padding(.top, 8)
                 .padding(.bottom, 48)
                 
+                // Programmatically change the content displayed based on the user's step
                 VStack(spacing: 16) {
                     stepContent
                 }
@@ -61,6 +67,7 @@ struct LoggingView: View {
         }
     }
     
+    // Change the content to display above based on the user's step
     @ViewBuilder
     private var stepContent: some View {
         switch step {
@@ -77,6 +84,7 @@ struct LoggingView: View {
         }
     }
     
+    // Computed property to change the title based on the user's step
     private var navigationTitle: String {
         switch step {
         case 1: return "Time and Intensity"
@@ -87,6 +95,7 @@ struct LoggingView: View {
         }
     }
     
+    // Change the toolbar items based on the user's step
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         if step > 1 {
@@ -116,6 +125,7 @@ struct LoggingView: View {
         }
     }
     
+    // Computed property to build the headache on the fly
     private var builtHeadache: Headache {
         Headache(
             onsetDateAndTime: input.onsetDateAndTime,
@@ -125,6 +135,7 @@ struct LoggingView: View {
         )
     }
     
+    // Function to save a headache when the user is done with the input flow
     private func saveHeadache() {
         context.insert(builtHeadache)
         
@@ -136,9 +147,7 @@ struct LoggingView: View {
         }
     }
 
-    /*
-     * When the user is on this step, they are viewing the logger.
-     */
+    // Display a DatePicker and slider to the user to input date/intensity
     var timeAndIntensityStep: some View {
         VStack(alignment: .leading, spacing: 28) {
             
@@ -179,12 +188,14 @@ struct LoggingView: View {
         .padding(24)
     }
     
+    // Display a list of locations for the user to pick for their headache
     var locationStep: some View {
         VStack(alignment: .leading, spacing: 24) {
             Label("Where does your headache hurt most?", systemImage: "location.fill")
                 .font(.headline)
                 .foregroundStyle(.orange)
             
+            // Organize the list into a grid
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], spacing: 12) {
                 ForEach(HeadacheLocation.allCases, id: \.self) { loc in
                     Button {
@@ -212,16 +223,18 @@ struct LoggingView: View {
         .padding(24)
     }
     
+    // Display a list of triggers for the user to pick for their headache
     var triggerStep: some View {
         VStack(alignment: .leading, spacing: 24) {
             Label("What triggered your headache?", systemImage: "bolt.fill")
                 .font(.headline)
                 .foregroundStyle(.yellow)
             
+            // Organize the list into a grid
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], spacing: 12) {
                 ForEach(HeadacheTrigger.allCases, id: \.self) { trig in
                     Button {
-                        withAnimation(.easeInOut(duration: 0.1)) {
+                        withAnimation(.easeInOut(duration: 0.15)) {
                             // Toggle selection
                             if input.triggers.contains(trig) {
                                 input.triggers.removeAll { $0 == trig }
@@ -245,15 +258,14 @@ struct LoggingView: View {
         .padding(24)
     }
     
-    /*
-     * When the user is viewing this step, they see a summary of the headache they entered.
-     */
+    // Display the user a summary of the headache they entered
     var summaryStep: some View {
         VStack(spacing: 20) {
             Label("Review your headache:", systemImage: "checkmark.circle.fill")
                 .font(.headline)
                 .foregroundStyle(.green)
             
+            // Reuse the headache card with the built headache passed in
             HeadacheView(headacheToView: builtHeadache)
                 .padding(20)
         }

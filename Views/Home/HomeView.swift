@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    // State to track if the user clicked the "Log Headache" button
     @State private var showLogger = false
     
     var body: some View {
@@ -16,6 +17,7 @@ struct HomeView: View {
             VStack(spacing: 32) {
                 Spacer()
                 
+                // Homepage welcome
                 VStack(spacing: 12) {
                     Image(systemName: "brain.head.profile")
                         .font(.system(size: 48))
@@ -43,6 +45,7 @@ struct HomeView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
                 .padding(.horizontal)
+                // Direct the user to the logging view after clicking the log button
                 .sheet(isPresented: $showLogger) {
                     LoggingView()
                 }

@@ -18,7 +18,7 @@ enum HeadacheLocation: String, Codable, CaseIterable {
     case backNeck = "Back of Neck"
     case topHead = "Top of Head"
     case sinuses = "Sinuses"
-    case multiplePlaces = "Multiple Places"
+    case frontFace = "Front of Face"
     case everywhere = "Everywhere"
     case other = "Other"
 }

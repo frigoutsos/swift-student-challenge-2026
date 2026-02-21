@@ -10,15 +10,23 @@ import SwiftUI
 import SwiftData
 
 struct HistoryView: View {
-    @Query(sort: \Headache.onsetDateAndTime, order: .reverse) var headaches: [Headache]
+    // Get a list of headaches, reverse sorted by time
+    @Query(sort: \Headache.onsetDateAndTime, order: .reverse) private var headaches: [Headache]
+    
+    // Access the configured model context
     @Environment(\.modelContext) private var modelContext
+    
+    // State to track selected headache being viewed, if any
     @State private var selectedHeadache: Headache? = nil
     
     var body: some View {
         NavigationStack {
             VStack {
+                // If there are no headaches, inform the user
                 if (headaches.isEmpty) {
                     Text("No headaches to display.")
+                        .foregroundStyle(.secondary)
+                // Otherwise, display all the headaches in a list
                 } else {
                     List {
                         ForEach(headaches) { headache in
@@ -30,22 +38,30 @@ struct HistoryView: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .contentShape(Rectangle())
+                            // Set the selected headache state when clicking a headache
                             .onTapGesture {
                                 selectedHeadache = headache
                             }
                         }
                         .onDelete(perform: deleteItem)
                     }
+                    // A sheet will popup when the user clicks a headache
                     .sheet(item: $selectedHeadache) { headache in
                         NavigationStack {
-                            VStack {
-                                HeadacheView(headacheToView: headache)
-                                    .frame(maxWidth: 500)
+                            ScrollView {
+                                VStack(spacing: 16) {
+                                    HeadacheView(headacheToView: headache)
+                                        .padding()
+                                        .frame(maxWidth: 400)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .fill(Color(.secondarySystemGroupedBackground))
+                                                .shadow(color: .black.opacity(0.08), radius: 8, y: 4)
+                                        )
+                                }
+                                .padding()
                             }
-                            .padding()
-                            .background(Color(.systemGray6))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                            .background(Color(.systemGroupedBackground))
                             .navigationTitle("Headache Summary")
                             .navigationBarTitleDisplayMode(.inline)
                             .toolbar {

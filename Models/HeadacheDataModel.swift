@@ -11,13 +11,13 @@ import SwiftData
 
 @Model
 final class Headache {
-    @Attribute(.unique) var id: UUID = UUID()
-    
+    // Fields of a headache
     var onsetDateAndTime: Date
     var intensity: Double
     var locations: [HeadacheLocation]
     var triggers: [HeadacheTrigger]
     
+    // Assign data to each field in the initializer
     init(
         onsetDateAndTime: Date,
         intensity: Double,
@@ -30,5 +30,3 @@ final class Headache {
         self.triggers = triggers
     }
 }
-
-extension Headache: Identifiable {}

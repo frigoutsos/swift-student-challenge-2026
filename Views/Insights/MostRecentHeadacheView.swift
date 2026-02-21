@@ -9,11 +9,13 @@
 import SwiftUI
 
 struct MostRecentHeadacheView: View {
+    // The user may not have inputted any headaches yet, so make this input optional
     let mostRecentHeadache: Headache?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            // Header
+            
+            // Title
             HStack(spacing: 8) {
                 Label("Most Recent Headache", systemImage: "clock.arrow.circlepath")
                     .font(.headline)
@@ -23,12 +25,13 @@ struct MostRecentHeadacheView: View {
             Divider()
             
             VStack(alignment: .leading, spacing: 12) {
+                // If there is a headache to display, create a HeadacheView card
                 if let headache = mostRecentHeadache {
                     HeadacheView(headacheToView: headache)
+                // Otherwise, tell the user there are no headaches to display
                 } else {
                     Text("No headaches to display.")
                         .foregroundStyle(.secondary)
-                        .italic()
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
             }

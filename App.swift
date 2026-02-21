@@ -14,6 +14,7 @@ struct MyApp: App {
         WindowGroup {
             ContentView()
         }
+        // Set up the SwiftData model container
         .modelContainer(for: Headache.self)
     }
 }
