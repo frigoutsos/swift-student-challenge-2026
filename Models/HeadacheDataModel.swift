@@ -13,14 +13,14 @@ import SwiftData
 final class Headache {
     // Fields of a headache
     var onsetDateAndTime: Date
-    var intensity: Double
+    var intensity: Int
     var locations: [HeadacheLocation]
     var triggers: [HeadacheTrigger]
     
     // Assign data to each field in the initializer
     init(
         onsetDateAndTime: Date,
-        intensity: Double,
+        intensity: Int,
         locations: [HeadacheLocation],
         triggers: [HeadacheTrigger]
     ) {

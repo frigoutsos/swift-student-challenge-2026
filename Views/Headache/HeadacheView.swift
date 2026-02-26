@@ -23,7 +23,7 @@ struct HeadacheView: View {
                 Text("Date:")
                     .fontWeight(.semibold)
                 
-                Text(headacheToView.onsetDateAndTime.formatted(.dateTime.month().day().year().hour().minute()))
+                Text(headacheToView.onsetDateAndTime.formatted(date: .abbreviated, time: .shortened))
                     .foregroundStyle(.primary)
             }
             .font(.subheadline)
@@ -36,7 +36,7 @@ struct HeadacheView: View {
                 Text("Intensity:")
                     .fontWeight(.semibold)
                 
-                Text("\(headacheToView.intensity, specifier: "%.1f") / 10")
+                Text("\(headacheToView.intensity) / 10")
                     .foregroundStyle(.primary)
             }
             .font(.subheadline)

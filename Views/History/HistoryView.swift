@@ -31,9 +31,9 @@ struct HistoryView: View {
                     List {
                         ForEach(headaches) { headache in
                             VStack(alignment: .leading) {
-                                Text(headache.onsetDateAndTime.formatted())
+                                Text(headache.onsetDateAndTime.formatted(date: .abbreviated, time: .shortened))
                                     .font(.headline)
-                                Text("Intensity: \(headache.intensity, specifier: "%.1f")")
+                                Text("Intensity: \(headache.intensity) / 10")
                                     .font(.subheadline)
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)

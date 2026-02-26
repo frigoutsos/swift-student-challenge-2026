@@ -129,7 +129,8 @@ struct LoggingView: View {
     private var builtHeadache: Headache {
         Headache(
             onsetDateAndTime: input.onsetDateAndTime,
-            intensity: input.intensity,
+            // Cast intensity to Int when saving the headache, since the input slider uses decimal increments to slide more smoothly, which means the user is saving a Double
+            intensity: Int(input.intensity),
             locations: input.locations,
             triggers: input.triggers
         )
@@ -163,7 +164,8 @@ struct LoggingView: View {
                 .font(.headline)
                 .foregroundStyle(.red)
             
-            Slider(value: $input.intensity, in: 0...10, step: 0.1)
+            // Make step 0.1 to make the slider more fluid, even though we truncate any decimals inputted
+            Slider(value: $input.intensity, in: 1...10, step: 0.1)
                 .tint(.red)
             
             HStack {
@@ -173,7 +175,7 @@ struct LoggingView: View {
                 
                 Spacer()
                 
-                Text("Intensity: \(input.intensity, specifier: "%.1f")")
+                Text("Intensity: \(input.intensity, specifier: "%.0f") / 10")
                     .font(.title3)
                     .fontWeight(.semibold)
                     .foregroundStyle(.red)
