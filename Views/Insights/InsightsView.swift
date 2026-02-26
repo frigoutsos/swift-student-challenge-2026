@@ -76,6 +76,7 @@ struct InsightsView: View {
             VStack(spacing: 20) {
                 // Display the card views for headache insights
                 MostRecentHeadacheView(mostRecentHeadache: headaches.first ?? nil)
+                    .frame(maxWidth: 400)
                 
                 /*
                  * Rather than passing in the list of headaches to the card view to calculate frequencies,

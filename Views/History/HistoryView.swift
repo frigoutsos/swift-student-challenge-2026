@@ -48,6 +48,7 @@ struct HistoryView: View {
                     // A sheet will popup when the user clicks a headache
                     .sheet(item: $selectedHeadache) { headache in
                         NavigationStack {
+                            // Allow scrolling through summary view for those using larger text sizes
                             ScrollView {
                                 VStack(spacing: 16) {
                                     HeadacheView(headacheToView: headache)

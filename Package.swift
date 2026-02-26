@@ -8,20 +8,20 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "headacheapp",
+    name: "AheadAche",
     platforms: [
         .iOS("26.0")
     ],
     products: [
         .iOSApplication(
-            name: "headacheapp",
+            name: "AheadAche",
             targets: ["AppModule"],
-            bundleIdentifier: "dev.franklin.headacheapp",
+            bundleIdentifier: "dev.franklin.aheadache",
             teamIdentifier: "RPCN3H3YK4",
             displayVersion: "1.0",
             bundleVersion: "1",
             appIcon: .placeholder(icon: .bandage),
-            accentColor: .presetColor(.green),
+            accentColor: .presetColor(.blue),
             supportedDeviceFamilies: [
                 .pad,
                 .phone
@@ -41,5 +41,5 @@ let package = Package(
             path: "."
         )
     ],
-    swiftLanguageVersions: [.version("6")]
+    swiftLanguageModes: [.version("6")]
 )

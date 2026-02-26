@@ -49,7 +49,7 @@ struct HeadacheView: View {
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Locations:")
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                     
                     Text(headacheToView.locations.map { $0.rawValue }.joined(separator: ", "))
                         .fixedSize(horizontal: false, vertical: true)
@@ -66,7 +66,6 @@ struct HeadacheView: View {
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Triggers:")
-//                        .bold()
                         .fontWeight(.semibold)
                     
                     Text(headacheToView.triggers.map { $0.rawValue }.joined(separator: ", "))

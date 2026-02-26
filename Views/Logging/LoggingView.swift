@@ -150,39 +150,33 @@ struct LoggingView: View {
     // Display a DatePicker and slider to the user to input date/intensity
     var timeAndIntensityStep: some View {
         VStack(alignment: .leading, spacing: 28) {
+            Label("When did your headache start?", systemImage: "calendar")
+                .font(.headline)
+                .foregroundStyle(.blue)
+                
+            DatePicker("Time of Onset:",
+                       selection: $input.onsetDateAndTime,
+                       in: ...Date(),
+                       displayedComponents: [.date, .hourAndMinute])
             
-            VStack(alignment: .leading, spacing: 12) {
-                Label("When did your headache start?", systemImage: "calendar")
-                    .font(.headline)
-                    .foregroundStyle(.blue)
-                    
-                DatePicker("Time of Onset:",
-                           selection: $input.onsetDateAndTime,
-                           in: ...Date(),
-                           displayedComponents: [.date, .hourAndMinute])
-
-            }
+            Label("How intense is your headache?", systemImage: "speedometer")
+                .font(.headline)
+                .foregroundStyle(.red)
             
-            VStack(alignment: .leading, spacing: 16) {
-                Label("How intense is your headache?", systemImage: "speedometer")
-                    .font(.headline)
+            Slider(value: $input.intensity, in: 0...10, step: 0.1)
+                .tint(.red)
+            
+            HStack {
+                Text("Intensity")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                
+                Spacer()
+                
+                Text("Intensity: \(input.intensity, specifier: "%.1f")")
+                    .font(.title3)
+                    .fontWeight(.semibold)
                     .foregroundStyle(.red)
-                
-                Slider(value: $input.intensity, in: 0...10, step: 0.1)
-                    .tint(.red)
-                
-                HStack {
-                    Text("Intensity")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                    
-                    Spacer()
-                    
-                    Text("Intensity: \(input.intensity, specifier: "%.1f")")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.red)
-                }
             }
         }
         .padding(24)
@@ -191,31 +185,34 @@ struct LoggingView: View {
     // Display a list of locations for the user to pick for their headache
     var locationStep: some View {
         VStack(alignment: .leading, spacing: 24) {
-            Label("Where does your headache hurt most?", systemImage: "location.fill")
-                .font(.headline)
-                .foregroundStyle(.orange)
-            
-            // Organize the list into a grid
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], spacing: 12) {
-                ForEach(HeadacheLocation.allCases, id: \.self) { loc in
-                    Button {
-                        withAnimation(.easeInOut(duration: 0.1)) {
-                            // Toggle selection
-                            if input.locations.contains(loc) {
-                                input.locations.removeAll { $0 == loc }
-                            } else {
-                                input.locations.append(loc)
+            // Allow scrolling through location buttons for those using larger text sizes
+            ScrollView {
+                Label("Where does your headache hurt most?", systemImage: "location.fill")
+                    .font(.headline)
+                    .foregroundStyle(.orange)
+                
+                // Organize the list into a grid
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], spacing: 12) {
+                    ForEach(HeadacheLocation.allCases, id: \.self) { loc in
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.1)) {
+                                // Toggle selection
+                                if input.locations.contains(loc) {
+                                    input.locations.removeAll { $0 == loc }
+                                } else {
+                                    input.locations.append(loc)
+                                }
                             }
+                        } label: {
+                            Text(loc.rawValue)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundStyle(input.locations.contains(loc) ? .white : .primary)
+                                .padding(.vertical, 10)
+                                .frame(maxWidth: .infinity)
+                                .background(input.locations.contains(loc) ? Color.orange : Color.orange.opacity(0.15))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
-                    } label: {
-                        Text(loc.rawValue)
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundStyle(input.locations.contains(loc) ? .white : .primary)
-                            .padding(.vertical, 10)
-                            .frame(maxWidth: .infinity)
-                            .background(input.locations.contains(loc) ? Color.orange : Color.orange.opacity(0.15))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                 }
             }
@@ -226,31 +223,34 @@ struct LoggingView: View {
     // Display a list of triggers for the user to pick for their headache
     var triggerStep: some View {
         VStack(alignment: .leading, spacing: 24) {
-            Label("What triggered your headache?", systemImage: "bolt.fill")
-                .font(.headline)
-                .foregroundStyle(.yellow)
-            
-            // Organize the list into a grid
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], spacing: 12) {
-                ForEach(HeadacheTrigger.allCases, id: \.self) { trig in
-                    Button {
-                        withAnimation(.easeInOut(duration: 0.15)) {
-                            // Toggle selection
-                            if input.triggers.contains(trig) {
-                                input.triggers.removeAll { $0 == trig }
-                            } else {
-                                input.triggers.append(trig)
+            // Allow scrolling through trigger buttons for those using larger text sizes
+            ScrollView {
+                Label("What triggered your headache?", systemImage: "bolt.fill")
+                    .font(.headline)
+                    .foregroundStyle(.yellow)
+                
+                // Organize the list into a grid
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], spacing: 12) {
+                    ForEach(HeadacheTrigger.allCases, id: \.self) { trig in
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.15)) {
+                                // Toggle selection
+                                if input.triggers.contains(trig) {
+                                    input.triggers.removeAll { $0 == trig }
+                                } else {
+                                    input.triggers.append(trig)
+                                }
                             }
+                        } label: {
+                            Text(trig.rawValue)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundStyle(input.triggers.contains(trig) ? .white : .primary)
+                                .padding(.vertical, 10)
+                                .frame(maxWidth: .infinity)
+                                .background(input.triggers.contains(trig) ? Color.yellow : Color.yellow.opacity(0.2))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
-                    } label: {
-                        Text(trig.rawValue)
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundStyle(input.triggers.contains(trig) ? .white : .primary)
-                            .padding(.vertical, 10)
-                            .frame(maxWidth: .infinity)
-                            .background(input.triggers.contains(trig) ? Color.yellow : Color.yellow.opacity(0.2))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                 }
             }
@@ -261,13 +261,16 @@ struct LoggingView: View {
     // Display the user a summary of the headache they entered
     var summaryStep: some View {
         VStack(spacing: 20) {
-            Label("Review your headache:", systemImage: "checkmark.circle.fill")
-                .font(.headline)
-                .foregroundStyle(.green)
-            
-            // Reuse the headache card with the built headache passed in
-            HeadacheView(headacheToView: builtHeadache)
-                .padding(20)
+            // Allow scrolling through summary view for those using larger text sizes
+            ScrollView {
+                Label("Review your headache:", systemImage: "checkmark.circle.fill")
+                    .font(.headline)
+                    .foregroundStyle(.green)
+                
+                // Reuse the headache card with the built headache passed in
+                HeadacheView(headacheToView: builtHeadache)
+                    .padding(20)
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
