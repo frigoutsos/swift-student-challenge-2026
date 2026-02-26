@@ -1,6 +1,6 @@
 //
 //  HeadacheLocation.swift
-//  headacheapp
+//  AheadAche
 //
 //  This is an enum to represent possible headache locations.
 //

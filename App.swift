@@ -1,6 +1,6 @@
 //
 //  App.swift
-//  headacheapp
+//  AheadAche
 //
 //  This contains the App's top level logic.
 //

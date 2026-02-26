@@ -1,6 +1,6 @@
 //
 //  HistoryView.swift
-//  headacheapp
+//  AheadAche
 //
 //  This view displays the user's headaches as a scrollable list.
 //

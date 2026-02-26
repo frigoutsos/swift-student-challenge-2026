@@ -1,6 +1,6 @@
 //
 //  HomeView.swift
-//  headacheapp
+//  AheadAche
 //
 //  This view holds the app's home screen.
 //

@@ -1,6 +1,6 @@
 //
 //  LoggingView.swift
-//  headacheapp
+//  AheadAche
 //
 //  This view guides the user through logging headaches.
 //
@@ -32,10 +32,13 @@ struct LoggingView: View {
     // State of the user's input as they go through the screen
     @State private var input = HeadacheInput()
     
+    // State to track if we saved a user's headache yet
+    @State private var didSave = false
+    
     var body: some View {
         // Change the view programatically as the user clicks through the prompts
         NavigationStack {
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 32) {
                 HStack(spacing: 12) {
                     Text("Progress:")
                         .font(.subheadline)
@@ -121,6 +124,8 @@ struct LoggingView: View {
                 Button("Done", role: .confirm) {
                     saveHeadache()
                 }
+                // Provide user with a success haptic upon saving the headache
+                .sensoryFeedback(.success, trigger: didSave)
             }
         }
     }
@@ -138,13 +143,16 @@ struct LoggingView: View {
     
     // Function to save a headache when the user is done with the input flow
     private func saveHeadache() {
-        context.insert(builtHeadache)
-        
-        do {
-            try context.save()
-            dismiss()
-        } catch {
-            print("Error saving headache:", error)
+        if (!didSave) {
+            context.insert(builtHeadache)
+            
+            do {
+                try context.save()
+                didSave = true
+                dismiss()
+            } catch {
+                print("Error saving headache:", error)
+            }
         }
     }
 
@@ -215,6 +223,8 @@ struct LoggingView: View {
                                 .background(input.locations.contains(loc) ? Color.orange : Color.orange.opacity(0.15))
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
+                        // Use selection feedback to indicate to user that elements are being selected on screen
+                        .sensoryFeedback(.selection, trigger: input.locations.contains(loc))
                     }
                 }
             }
@@ -253,6 +263,8 @@ struct LoggingView: View {
                                 .background(input.triggers.contains(trig) ? Color.yellow : Color.yellow.opacity(0.2))
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
+                        // Use selection feedback to indicate to user that elements are being selected on screen
+                        .sensoryFeedback(.selection, trigger: input.triggers.contains(trig))
                     }
                 }
             }

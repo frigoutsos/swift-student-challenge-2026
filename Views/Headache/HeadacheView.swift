@@ -1,6 +1,6 @@
 //
 //  HeadacheView.swift
-//  headacheapp
+//  AheadAche
 //
 //  This view displays information about a selected headache in a compact way.
 //

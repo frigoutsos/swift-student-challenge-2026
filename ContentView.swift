@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  headacheapp
+//  AheadAche
 //
 //  This view structures the layout of the app.
 //

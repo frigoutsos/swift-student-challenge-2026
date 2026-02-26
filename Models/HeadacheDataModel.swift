@@ -1,6 +1,6 @@
 //
 //  HeadacheDataModel.swift
-//  headacheapp
+//  AheadAche
 //
 //  This is the SwiftUI data model that represents all headache objects.
 //

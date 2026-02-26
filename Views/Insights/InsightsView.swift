@@ -1,6 +1,6 @@
 //
 //  InsightsView.swift
-//  headacheapp
+//  AheadAche
 //
 //  This view displays headache insights to the user.
 //

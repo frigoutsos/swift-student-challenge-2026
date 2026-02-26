@@ -1,6 +1,6 @@
 //
 //  MostRecentHeadacheView.swift
-//  headacheapp
+//  AheadAche
 //
 //  This view creates a card to display a summary of lifetime headaches.
 //

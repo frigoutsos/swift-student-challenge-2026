@@ -1,6 +1,6 @@
 //
 //  CalendarView.swift
-//  headacheapp
+//  AheadAche
 //
 //  This view displays headaches on a calendar of the current month.
 //
