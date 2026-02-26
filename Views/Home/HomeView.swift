@@ -27,7 +27,7 @@ struct HomeView: View {
                         .font(.title2)
                         .fontWeight(.semibold)
                     
-                    Text("Log episodes and uncover patterns")
+                    Text("Log episodes and uncover patterns.")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
