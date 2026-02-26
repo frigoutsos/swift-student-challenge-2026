@@ -38,7 +38,7 @@ struct LoggingView: View {
     var body: some View {
         // Change the view programatically as the user clicks through the prompts
         NavigationStack {
-            VStack(alignment: .leading, spacing: 32) {
+            VStack(alignment: .leading, spacing: 24) {
                 HStack(spacing: 12) {
                     Text("Progress:")
                         .font(.subheadline)
@@ -158,22 +158,24 @@ struct LoggingView: View {
 
     // Display a DatePicker and slider to the user to input date/intensity
     var timeAndIntensityStep: some View {
-        VStack(alignment: .leading, spacing: 28) {
+        VStack(alignment: .leading, spacing: 24) {
             Label("When did your headache start?", systemImage: "calendar")
                 .font(.headline)
                 .foregroundStyle(.blue)
                 
-            DatePicker("Time of Onset:",
+            DatePicker("Onset:",
                        selection: $input.onsetDateAndTime,
                        in: ...Date(),
                        displayedComponents: [.date, .hourAndMinute])
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
             
             Label("How intense is your headache?", systemImage: "speedometer")
                 .font(.headline)
                 .foregroundStyle(.red)
             
-            // Make step 0.1 to make the slider more fluid, even though we truncate any decimals inputted
-            Slider(value: $input.intensity, in: 1...10, step: 0.1)
+            // Make step 0.2 to make the slider more fluid, even though we truncate any decimals inputted
+            Slider(value: $input.intensity, in: 1...10, step: 0.15)
                 .tint(.red)
             
             HStack {
@@ -189,18 +191,18 @@ struct LoggingView: View {
                     .foregroundStyle(.red)
             }
         }
-        .padding(24)
+        .padding()
     }
     
     // Display a list of locations for the user to pick for their headache
     var locationStep: some View {
         VStack(alignment: .leading, spacing: 24) {
+            Label("Where does your headache hurt most?", systemImage: "location.fill")
+                .font(.headline)
+                .foregroundStyle(.orange)
+            
             // Allow scrolling through location buttons for those using larger text sizes
             ScrollView {
-                Label("Where does your headache hurt most?", systemImage: "location.fill")
-                    .font(.headline)
-                    .foregroundStyle(.orange)
-                
                 // Organize the list into a grid
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], spacing: 12) {
                     ForEach(HeadacheLocation.allCases, id: \.self) { loc in
@@ -229,18 +231,18 @@ struct LoggingView: View {
                 }
             }
         }
-        .padding(24)
+        .padding()
     }
     
     // Display a list of triggers for the user to pick for their headache
     var triggerStep: some View {
         VStack(alignment: .leading, spacing: 24) {
+            Label("What triggered your headache?", systemImage: "bolt.fill")
+                .font(.headline)
+                .foregroundStyle(.yellow)
+            
             // Allow scrolling through trigger buttons for those using larger text sizes
             ScrollView {
-                Label("What triggered your headache?", systemImage: "bolt.fill")
-                    .font(.headline)
-                    .foregroundStyle(.yellow)
-                
                 // Organize the list into a grid
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], spacing: 12) {
                     ForEach(HeadacheTrigger.allCases, id: \.self) { trig in
@@ -269,21 +271,21 @@ struct LoggingView: View {
                 }
             }
         }
-        .padding(24)
+        .padding()
     }
     
     // Display the user a summary of the headache they entered
     var summaryStep: some View {
-        VStack(spacing: 20) {
+        VStack(alignment: .leading, spacing: 24) {
+            Label("Review your headache:", systemImage: "checkmark.circle.fill")
+                .font(.headline)
+                .foregroundStyle(.green)
+            
             // Allow scrolling through summary view for those using larger text sizes
             ScrollView {
-                Label("Review your headache:", systemImage: "checkmark.circle.fill")
-                    .font(.headline)
-                    .foregroundStyle(.green)
-                
                 // Reuse the headache card with the built headache passed in
                 HeadacheView(headacheToView: builtHeadache)
-                    .padding(20)
+                    .padding()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
