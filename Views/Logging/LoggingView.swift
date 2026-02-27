@@ -285,9 +285,8 @@ struct LoggingView: View {
             ScrollView {
                 // Reuse the headache card with the built headache passed in
                 HeadacheView(headacheToView: builtHeadache)
-                    .padding()
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .padding()
     }
 }

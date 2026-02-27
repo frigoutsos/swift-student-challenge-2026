@@ -46,15 +46,13 @@ struct HeadacheView: View {
                 Image(systemName: "location.fill")
                     .foregroundStyle(.orange)
                     .padding(.top, 2)
+
+                Text("Locations:")
+                    .fontWeight(.semibold)
                 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Locations:")
-                        .fontWeight(.semibold)
-                    
-                    Text(headacheToView.locations.map { $0.rawValue }.joined(separator: ", "))
-                        .fixedSize(horizontal: false, vertical: true)
-                        .foregroundStyle(.primary)
-                }
+                Text(headacheToView.locations.map { $0.rawValue }.joined(separator: ", "))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .foregroundStyle(.primary)
             }
             .font(.subheadline)
 
@@ -64,17 +62,14 @@ struct HeadacheView: View {
                     .foregroundStyle(.yellow)
                     .padding(.top, 2)
                 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Triggers:")
-                        .fontWeight(.semibold)
-                    
-                    Text(headacheToView.triggers.map { $0.rawValue }.joined(separator: ", "))
-                        .fixedSize(horizontal: false, vertical: true)
-                        .foregroundStyle(.primary)
-                }
+                Text("Triggers:")
+                    .fontWeight(.semibold)
+                
+                Text(headacheToView.triggers.map { $0.rawValue }.joined(separator: ", "))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .foregroundStyle(.primary)
             }
             .font(.subheadline)
-            
         }
         .fixedSize(horizontal: false, vertical: false)
         .frame(maxWidth: .infinity, alignment: .leading)
